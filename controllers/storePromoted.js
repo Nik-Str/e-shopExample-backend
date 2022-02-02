@@ -4,12 +4,12 @@ const path = require('path');
 module.exports = async (req, res) => {
   try {
     let image = req.files.image;
-    image.mv(path.resolve(__dirname, '../img/', image.name));
+    image.mv(path.resolve(__dirname, '../img/promoted/', image.name));
 
     let newPromoted = new Promoted({
       title: req.body.title,
       text: req.body.text,
-      image: '/img/' + image.name,
+      image: '/img/promoted/' + image.name,
     });
 
     await newPromoted.save();

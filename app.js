@@ -37,20 +37,24 @@ db.on('error', (err) => console.log(err));
 db.on('open', () => console.log('=> Connected to DB'));
 
 //-------------------------Controllers------------------------
-// Get all data from db
-const getPromoted = require('./controllers/getPromoted');
-app.get('/', getPromoted);
 
 // Get individueal data from db
 const getSingelData = require('./controllers/dataSingel');
 app.get('/product/:id', getSingelData);
 
-//Data upload
-const dataUpload = require('./controllers/storePromoted');
-app.post('/data', dataUpload);
+//promoted
+// Get all promoted data from db
+const getPromoted = require('./controllers/getPromoted');
+app.get('/promoted', getPromoted);
 
-//Send the images
-app.get('/img/:id', (req, res) => {
-  console.log(req.params.id);
-  res.sendFile(path.resolve(__dirname, 'img/' + req.params.id));
+//Upload new Promoted item
+const storePromoted = require('./controllers/storePromoted');
+app.post('/data/promoted/add', storePromoted);
+
+//Send Promoted images
+app.get('/img/promoted/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'img/promoted/' + req.params.id));
 });
+
+const deletePromoted = require('./controllers/deletePromoted');
+app.delete('/data/promoted/delete', deletePromoted);
