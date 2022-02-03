@@ -3,6 +3,8 @@ const path = require('path');
 
 module.exports = async (req, res) => {
   try {
+    console.log(req.body);
+
     let image = req.files.image;
     image.mv(path.resolve(__dirname, '../img/promoted/', image.name));
 
