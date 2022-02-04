@@ -42,19 +42,38 @@ db.on('open', () => console.log('=> Connected to DB'));
 const getSingelData = require('./controllers/dataSingel');
 app.get('/product/:id', getSingelData);
 
-//promoted
+//-----------------PROMOTED---------------
 // Get all promoted data from db
 const getPromoted = require('./controllers/getPromoted');
 app.get('/promoted', getPromoted);
 
 //Upload new Promoted item
-const storePromoted = require('./controllers/storePromoted');
-app.post('/data/promoted/add', storePromoted);
+const postPromoted = require('./controllers/postPromoted');
+app.post('/promoted', postPromoted);
 
 //Send Promoted images
 app.get('/img/promoted/:id', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'img/promoted/' + req.params.id));
 });
 
+//Delete promoted
 const deletePromoted = require('./controllers/deletePromoted');
-app.delete('/data/promoted/delete', deletePromoted);
+app.delete('/promoted', deletePromoted);
+
+//------------------Videos---------------
+//Send videos
+app.get('/video/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'video/' + req.params.id));
+});
+
+//Get video info
+const getVideoInfo = require('./controllers/getVideo');
+app.get('/video', getVideoInfo);
+
+//Upload videos
+const postVideo = require('./controllers/postVideo');
+app.post('/video', postVideo);
+
+//Delete video
+const deleteVideo = require('./controllers/deleteVideo');
+app.delete('/video', deleteVideo);

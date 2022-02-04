@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const blogPostSchema = new mongoose.Schema({
+const promotedSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -15,4 +15,4 @@ const blogPostSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('promote', blogPostSchema);
+module.exports = mongoose.model('promote', promotedSchema);
