@@ -1,15 +1,19 @@
 const mongoose = require('mongoose');
 
 const videoSchema = new mongoose.Schema({
-  size: {
+  screen: {
     type: String,
     required: true,
   },
-  video: {
+  url: {
     type: String,
     required: true,
   },
-  mapp: {
+  map: {
+    type: String,
+    required: true,
+  },
+  name: {
     type: String,
     required: true,
   },

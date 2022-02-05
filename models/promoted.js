@@ -9,7 +9,11 @@ const promotedSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
+  url: {
+    type: String,
+    required: true,
+  },
+  name: {
     type: String,
     required: true,
   },

@@ -9,11 +9,12 @@ module.exports = async (req, res) => {
     let newPromoted = new Promoted({
       title: req.body.title,
       text: req.body.text,
-      image: '/img/promoted/' + image.name,
+      url: 'http://localhost:8080/img/promoted/' + image.name,
+      name: image.name,
     });
 
     await newPromoted.save();
-    res.status(201).json({ message: 'Upload Complete!' });
+    res.status(201).json({ message: `Upload ${image.name} Complete!` });
   } catch (err) {
     console.log(err);
     res.status(404).end();
