@@ -38,9 +38,19 @@ db.on('open', () => console.log('=> Connected to DB'));
 
 //-------------------------Controllers------------------------
 
-// Get individueal data from db
-const getSingelData = require('./controllers/dataSingel');
-app.get('/product/:id', getSingelData);
+//----------------Products---------------
+// Upload new products
+const postProducts = require('./controllers/postProduct');
+app.post('/product', postProducts);
+
+//Get preview products
+const previewProducts = require('./controllers/getPreviewProducts');
+app.get('/product', previewProducts);
+
+//Send Products fotos
+app.get('/img/male/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'img/male/' + req.params.id));
+});
 
 //-----------------PROMOTED---------------
 // Get all promoted data from db
