@@ -13,19 +13,25 @@ module.exports = async (req, res) => {
         typ = 'male';
       }
 
+      //Map names of files
+      let mapFile = [];
+
       let imageOne = req.files.imageOne;
       imageOne.mv(path.resolve(__dirname, `../img/${typ}/`, imageOne.name));
+      mapFile.push(`${typ}/${imageOne.name}`);
 
       let imageTwo = null;
       if (req.files.imageTwo) {
         imageTwo = req.files.imageTwo;
         imageTwo.mv(path.resolve(__dirname, `../img/${typ}/`, imageTwo.name));
+        mapFile.push(`${typ}/${imageTwo.name}`);
       }
 
       let imageThree = null;
       if (req.files.imageThree) {
         imageThree = req.files.imageThree;
         imageThree.mv(path.resolve(__dirname, `../img/${typ}/`, imageThree.name));
+        mapFile.push(`${typ}/${imageThree.name}`);
       }
 
       //Save new post
@@ -44,6 +50,7 @@ module.exports = async (req, res) => {
         imageOne: `http://localhost:8080/img/${typ}/` + imageOne.name,
         imageTwo: `http://localhost:8080/img/${typ}/` + imageTwo.name,
         imageThree: `http://localhost:8080/img/${typ}/` + imageThree.name,
+        map: mapFile,
       });
 
       await newProduct.save();

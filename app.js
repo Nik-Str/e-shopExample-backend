@@ -52,6 +52,10 @@ app.get('/img/male/:id', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'img/male/' + req.params.id));
 });
 
+//Delete items
+const deleteProducts = require('./controllers/deleteProduct');
+app.delete('/product', deleteProducts);
+
 //-----------------PROMOTED---------------
 // Get all promoted data from db
 const getPromoted = require('./controllers/getPromoted');

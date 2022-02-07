@@ -56,6 +56,9 @@ const productSchema = new mongoose.Schema(
     imageThree: {
       type: String,
     },
+    map: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );
