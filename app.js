@@ -43,18 +43,31 @@ db.on('open', () => console.log('=> Connected to DB'));
 const postProducts = require('./controllers/postProduct');
 app.post('/product', postProducts);
 
-//Get preview products
-const previewProducts = require('./controllers/getPreviewProducts');
-app.get('/product', previewProducts);
+//Get all products
+const getProducts = require('./controllers/getProducts');
+app.get('/product', getProducts);
 
-//Send Products fotos
+//Send Male images
 app.get('/img/male/:id', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'img/male/' + req.params.id));
+});
+
+//Send female images
+app.get('/img/female/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'img/female/' + req.params.id));
 });
 
 //Delete items
 const deleteProducts = require('./controllers/deleteProduct');
 app.delete('/product', deleteProducts);
+
+//Update data
+const updateProducts = require('./controllers/putProducts');
+app.put('/product', updateProducts);
+
+//Homepage displayed products
+const getHomeProducts = require('./controllers/getHomepageProducts');
+app.get('/product/homepage', getHomeProducts);
 
 //-----------------PROMOTED---------------
 // Get all promoted data from db
@@ -91,3 +104,21 @@ app.post('/video', postVideo);
 //Delete video
 const deleteVideo = require('./controllers/deleteVideo');
 app.delete('/video', deleteVideo);
+
+//------------------Instagram-----------------
+//Upload social media images
+const postSocialMedia = require('./controllers/postSocialMedia');
+app.post('/socialmedia', postSocialMedia);
+
+//Send social media image
+app.get('/img/socialmedia/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'img/socialmedia/' + req.params.id));
+});
+
+//Get all social media img data
+const getSocialMedia = require('./controllers/getSocialMedia');
+app.get('/socialmedia', getSocialMedia);
+
+//Delte social meddia
+const deleteSocialMedia = require('./controllers/deleteSocialMedia');
+app.delete('/socialmedia', deleteSocialMedia);
