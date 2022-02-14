@@ -1,11 +1,14 @@
 const Product = require('../models/product');
 const path = require('path');
+const sharp = require('sharp');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = async (req, res) => {
   try {
     let controll = await Product.findOne({ name: req.body.name, brand: req.body.brand });
 
     if (controll === null) {
+      //Typ represent female or male
       let typ;
       if (req.body.sex === 'Dam') {
         typ = 'female';
@@ -13,26 +16,22 @@ module.exports = async (req, res) => {
         typ = 'male';
       }
 
-      //Map names of files
+      //Map represent all path-names of files
       let mapFile = [];
 
-      let imageOne = req.files.imageOne;
-      imageOne.mv(path.resolve(__dirname, `../img/${typ}/`, imageOne.name));
-      mapFile.push(`${typ}/${imageOne.name}`);
+      //Process image
+      const processImage = async (data) => {
+        const fileId = uuidv4();
+        await sharp(data)
+          .resize(900, 1125)
+          .toFormat('webp')
+          .webp({ lossless: true })
+          .toFile(path.resolve(__dirname, `../img/${typ}/`, `${fileId}.webp`));
+        mapFile.push(`${typ}/${fileId}.webp`);
+      };
 
-      let imageTwo = null;
-      if (req.files.imageTwo) {
-        imageTwo = req.files.imageTwo;
-        imageTwo.mv(path.resolve(__dirname, `../img/${typ}/`, imageTwo.name));
-        mapFile.push(`${typ}/${imageTwo.name}`);
-      }
-
-      let imageThree = null;
-      if (req.files.imageThree) {
-        imageThree = req.files.imageThree;
-        imageThree.mv(path.resolve(__dirname, `../img/${typ}/`, imageThree.name));
-        mapFile.push(`${typ}/${imageThree.name}`);
-      }
+      //Process first image file (required)
+      await processImage(req.files.imageOne.data);
 
       //Save new post
       let newProduct = new Product({
@@ -47,11 +46,23 @@ module.exports = async (req, res) => {
         medium: req.body.medium,
         large: req.body.large,
         xlarge: req.body.xlarge,
-        imageOne: `http://localhost:8080/img/${typ}/` + imageOne.name,
-        imageTwo: `http://localhost:8080/img/${typ}/` + imageTwo.name,
-        imageThree: `http://localhost:8080/img/${typ}/` + imageThree.name,
-        map: mapFile,
+        imageOne: `http://localhost:8080/img/${mapFile[0]}`,
       });
+
+      //process second image if exist
+      if (req.files.imageTwo) {
+        await processImage(req.files.imageTwo.data);
+        newProduct.imageTwo = `http://localhost:8080/img/${mapFile[1]}`;
+      }
+
+      //process third image if exist
+      if (req.files.imageThree) {
+        await processImage(req.files.imageThree.data);
+        newProduct.imageThree = `http://localhost:8080/img/${mapFile[2]}`;
+      }
+
+      //Add filepath in map
+      newProduct.map = mapFile;
 
       await newProduct.save();
       res.status(201).json({ message: `Upload ${req.body.name} Complete!` });

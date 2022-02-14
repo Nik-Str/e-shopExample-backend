@@ -28,13 +28,24 @@ app.listen(port, () => {
 });
 
 //DB connection
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 const db = mongoose.connection;
-db.on('error', (err) => console.log(err));
-db.on('open', () => console.log('=> Connected to DB'));
+const connectToDb = () => {
+  mongoose.connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+};
+connectToDb();
+
+db.on('error', (error) => {
+  console.error('=> DB error: ' + error);
+  mongoose.disconnect(); // Trigger disconnect on any error
+});
+db.on('connected', () => console.log('=> DB connected'));
+db.on('disconnected', () => {
+  console.log('=> MongoDB disconnected!');
+  connectToDb();
+});
 
 //-------------------------Controllers------------------------
 
@@ -56,6 +67,10 @@ app.get('/img/male/:id', (req, res) => {
 app.get('/img/female/:id', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'img/female/' + req.params.id));
 });
+
+//Get all female products
+const getFemaleProducts = require('./controllers/getFemaleProducts');
+app.get('/female', getFemaleProducts);
 
 //Delete items
 const deleteProducts = require('./controllers/deleteProduct');
