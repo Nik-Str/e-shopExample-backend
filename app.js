@@ -72,6 +72,10 @@ app.get('/img/female/:id', (req, res) => {
 const getFemaleProducts = require('./controllers/getFemaleProducts');
 app.get('/female', getFemaleProducts);
 
+//Get all female products
+const getmaleProducts = require('./controllers/getmaleProducts');
+app.get('/male', getmaleProducts);
+
 //Delete items
 const deleteProducts = require('./controllers/deleteProduct');
 app.delete('/product', deleteProducts);
@@ -137,3 +141,7 @@ app.get('/socialmedia', getSocialMedia);
 //Delte social meddia
 const deleteSocialMedia = require('./controllers/deleteSocialMedia');
 app.delete('/socialmedia', deleteSocialMedia);
+
+//------------------news subscribe-----------------
+const postSubscribe = require('./controllers/postSubscribe');
+app.post('/subscribe', postSubscribe);
