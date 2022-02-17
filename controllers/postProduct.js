@@ -46,6 +46,8 @@ module.exports = async (req, res) => {
         medium: req.body.medium,
         large: req.body.large,
         xlarge: req.body.xlarge,
+        material: req.body.material,
+        color: `http://localhost:8080/img/color/${req.body.color}.jpg`,
         imageOne: `http://localhost:8080/img/${mapFile[0]}`,
       });
 

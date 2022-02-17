@@ -88,6 +88,10 @@ app.put('/product', updateProducts);
 const getHomeProducts = require('./controllers/getHomepageProducts');
 app.get('/product/homepage', getHomeProducts);
 
+//Get product ID
+const getProductID = require('./controllers/getProductID');
+app.get('/product/:id', getProductID);
+
 //-----------------PROMOTED---------------
 // Get all promoted data from db
 const getPromoted = require('./controllers/getPromoted');
@@ -145,3 +149,8 @@ app.delete('/socialmedia', deleteSocialMedia);
 //------------------news subscribe-----------------
 const postSubscribe = require('./controllers/postSubscribe');
 app.post('/subscribe', postSubscribe);
+
+//-------------------Color--------------------------------
+app.get('/img/color/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'img/color/' + req.params.id));
+});

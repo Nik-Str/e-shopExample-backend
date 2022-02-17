@@ -1,4 +1,4 @@
-const Product = require('../models/promoted');
+const Product = require('../models/product');
 
 module.exports = async (req, res) => {
   try {
@@ -7,6 +7,6 @@ module.exports = async (req, res) => {
     res.status(201).json({ data: singelProduct });
   } catch (err) {
     console.log(err);
-    res.status(404).send('Unknown Error');
+    res.status(500).end();
   }
 };

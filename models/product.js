@@ -52,12 +52,22 @@ const productSchema = new mongoose.Schema(
     },
     imageTwo: {
       type: String,
+      default: null,
     },
     imageThree: {
       type: String,
+      default: null,
     },
     map: {
       type: Array,
+    },
+    material: {
+      type: String,
+      default: null,
+    },
+    color: {
+      type: String,
+      default: null,
     },
   },
   { timestamps: true }
